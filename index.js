@@ -2,10 +2,15 @@
 const fetch = require('node-fetch');
 const express = require('express');
 const app = express();
-const port = process.argv.slice(2)[0];
-if (isNaN(port) || port < 0 || port > 1e5) 
-	return console.log('Invalid port input!');
-const server = app.listen(port || 1234);
+let port = process.argv.slice(2)[0];
+if (!port)
+	port = 1234;
+else
+if (isNaN(port) || port < 0 || port > 1e5) {
+	console.log('Invalid port input, using default port: 1234');
+	port = 1234;
+}
+const server = app.listen(port);
 const io = require('socket.io')(server);
 
 app.use(express.static(__dirname));
