@@ -20,5 +20,5 @@ io.on('connection', socket => {
 })
 
 fetch('https://api.ipify.org/?format=json').then(result => result.json().then(json => {
-	console.log(`Your public site is: ${json.ip}:${port}`)
+	console.log(`Your public site is: ${json.ip}:${port}\nMake sure your port ${port} is open :)`)
 }))
