@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body style="background-color: #C1C1C1; font-family: cursive;">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js"></script>
+	<script type="text/javascript">
+		const socket = io();
+		socket.on('connect', () => {
+			ping();
+		});
+		socket.on('disconnect', () => {
+			alert('disconnect!');
+		})
+		socket.on('hi', serverTime => {
+			const tc = serverTime - window.pingTime;
+			const ts = Date.now() - serverTime;
+			[
+				[document.getElementById('c2s'), tc],
+				[document.getElementById('s2c'), ts],
+				[document.getElementById('sum'), tc + ts],
+			].map(item => {
+				const [element, latency] = item;
+				element.innerHTML = latency + 'ms';
+				element.style.color = color(latency);
+			});
+			setTimeout(() =>ping(), 2000);
+		})
+		function ping() {
+			window.pingTime = Date.now();
+			socket.emit('hello');
+		}
+		function color(latency) {
+			if (latency > 300)
+				return 'red';
+			if (latency > 99)
+				return 'yellow';
+			return 'green';
+		}
+	</script>
+	<div align="center" style="position: absolute;top: 50%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+			<h1>CLIENT  >>>  SERVER: <b id="c2s"></b></h1>
+			<h1>CLIENT  <<<  SERVER: <b id="s2c"></b></h1>
+			<h1>SUM: <b id="sum"></b></h1>
+	</div>
+</body>
+</html>
