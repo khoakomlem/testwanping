@@ -13,9 +13,15 @@ const io = require('socket.io')(server);
 app.use(express.static(__dirname));
 
 io.on('connection', socket => {
-	socket.on('hello', ()=> socket.emit('hi', Date.now()));
+	socket.on('hello', ()=> {
+		socket.emit('hi', Number(convertTZ(new Date(), "Asia/Ho_Chi_Minh")));
+	})
 })
 
 fetch('https://api.ipify.org/?format=json').then(result => result.json().then(json => {
 	console.log(`Your public site is: ${json.ip}:${port}\nMake sure your port ${port} is open :)`)
 }))
+
+function convertTZ(date, tzString) {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+}
