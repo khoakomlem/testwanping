@@ -14,7 +14,8 @@ const VN_TIMEZONE_OFFSET = -420
 app.use(express.static(__dirname));
 
 io.on('connection', socket => {
-	socket.on('hello', ()=> {
+	socket.on('hello', ()=> 
+		  console.log(Date.now())
 		console.log(new Date().getTimezoneOffset())
 		socket.emit('hi', Date.now());
 	})
