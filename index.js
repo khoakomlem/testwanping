@@ -15,7 +15,7 @@ app.use(express.static(__dirname));
 
 io.on('connection', socket => {
 	socket.on('hello', ()=> {
-		const idk = new Date(Date.now() + 7 * 60 * 60 * 1000)
+		const idk = new Date(Date.now())
 		  console.log(idk.toLocaleString('en-GB', { timeZone: 'UTC' }))
 		socket.emit('hi', Number(idk));
 	})
