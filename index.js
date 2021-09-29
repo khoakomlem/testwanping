@@ -16,6 +16,7 @@ app.use(express.static(__dirname));
 io.on('connection', socket => {
 	socket.on('hello', ()=> {
 		const now = new Date()
+		console.log(now.getTimezoneOffset())
 		socket.emit('hi', Number(now) + (VN_TIMEZONE_OFFSET-now.getTimezoneOffset()) *60*1000 );
 	})
 })
