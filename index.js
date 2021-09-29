@@ -15,8 +15,7 @@ app.use(express.static(__dirname));
 
 io.on('connection', socket => {
 	socket.on('hello', ()=> {
-		  console.log(Date.now())
-		console.log(new Date().getTimezoneOffset())
+		  console.log(new Date().toLocaleString('en-GB', { timeZone: 'UTC' }))
 		socket.emit('hi', Date.now());
 	})
 })
